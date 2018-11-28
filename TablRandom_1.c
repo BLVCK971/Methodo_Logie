@@ -3,6 +3,9 @@
 #include<time.h>
 #include<math.h>
 
+int *T;
+
+
 int partitionner(int *tableau, int p, int r) {
     int pivot = tableau[p], i = p-1, j = r+1;
     int temp;
@@ -80,17 +83,10 @@ void afftab(int *t, int nom){
 
 void trisel(int tai){
 
-	srand(time(NULL));
-
 	int i;
 
-	int tableau[tai];
-
-	for(i=0; i<tai; i++){
-		tableau[i]=rand()%100;
-	}
 	// afftab(tableau,tai);
-  tri_selection(tableau,tai);
+  tri_selection(T,tai);
 // afftab(tableau,tai);
 }
 
@@ -98,56 +94,106 @@ void trisel(int tai){
 
 void trirap(int tai){
 
-	srand(time(NULL));
   int p=0;
 	int i;
-  int tableau[tai];
 
-	for(i=0; i<tai; i++){
-		tableau[i]=rand()%100;
-	}
+
 	//afftab(tableau,r);
-	quickSort(tableau, p, tai);
+	quickSort(T, p, tai);
 	//afftab(tableau,r);
 }
 
 
 void main(int argv,char**argc){
 
-    int tai;
-    double Trap,Tsel,t1,t2;
+    int tai,nbruns;
+    double Trap,Tsel,t1,t2,tst1,tst2,tt1,tt2;
 
 
-    printf(" tai\n");
+    srand(time(NULL));
+
+    //printf(" tai\n");
 
 
     sscanf(argc[1],"%d", &tai);
-    int i;
+    sscanf(argc[2],"%d", &nbruns);
 
-    printf("%d\n",tai);
+    int i,j;
+
+
+    //printf("%d %d %s\n",tai,nbruns,argc[3]);
+    //printf("%d\n",tai);
 
     FILE* fichier = NULL;
-    fichier = fopen("test.txt", "w");
+    fichier = fopen(argc[3], "w");
 
-    for(i=0;i<50 ;i++){
 
-      printf("Tour %d \n", i+1);
+    T = (int*)malloc(sizeof(int)*tai);
+
+    for(i=0;i<nbruns;i++){
+
+      for(j=0; j<tai; j++) T[j]=rand()%100;
+
       t1=(double)clock()/CLOCKS_PER_SEC;
       trirap(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Trap=Trap + (t2-t1);
-      fprintf(fichier,"%f ", Trap/(i+1));
+
+      for(j=0; j<tai; j++) T[j]=rand()%100;
 
       t1=(double)clock()/CLOCKS_PER_SEC;
       trisel(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Tsel= Tsel + (t2-t1);
-      fprintf(fichier,"%f\n", Tsel/(i+1));
     }
-    printf("\n Les tris ont pris %f s au total \n",Trap+Tsel);
-    printf("\n Le tri rapide a pris %f s et le tri sel a pris %f s \n",Trap/20,Tsel/20);
+
+    for(j=0; j<tai; j++) T[j]=rand()%100;
+    trirap(tai/2);
+
+    printf("%f %f ",Trap/nbruns,Tsel/nbruns);
+
+    Trap=0;
+    Tsel=0;
+
+    for(i=0;i<nbruns;i++){
 
 
+      t1=(double)clock()/CLOCKS_PER_SEC;
+      trirap(tai);
+      t2=(double)clock()/CLOCKS_PER_SEC;
+      Trap=Trap + (t2-t1);
+
+
+      t1=(double)clock()/CLOCKS_PER_SEC;
+      trisel(tai);
+      t2=(double)clock()/CLOCKS_PER_SEC;
+      Tsel= Tsel + (t2-t1);
+
+    }
+    printf("%f %f ",Trap/nbruns,Tsel/nbruns);
+
+    Trap=0;
+    Tsel=0;
+
+    for(i=0;i<nbruns;i++){
+
+
+      t1=(double)clock()/CLOCKS_PER_SEC;
+      trirap(tai);
+      t2=(double)clock()/CLOCKS_PER_SEC;
+      Trap=Trap + (t2-t1);
+
+
+      t1=(double)clock()/CLOCKS_PER_SEC;
+      trisel(tai);
+      t2=(double)clock()/CLOCKS_PER_SEC;
+      Tsel= Tsel + (t2-t1);
+
+    }
+    printf("%f %f\n",Trap/nbruns,Tsel/nbruns);
+
+    fclose(fichier);
+    free(T);
 
 
 
