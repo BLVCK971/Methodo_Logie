@@ -138,6 +138,7 @@ void main(int argv,char**argc){
       trirap(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Trap=Trap + (t2-t1);
+      fprintf(fichier,"%f ", Trap/(i+1));
 
       for(j=0; j<tai; j++) T[j]=rand()%100;
 
@@ -145,6 +146,7 @@ void main(int argv,char**argc){
       trisel(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Tsel= Tsel + (t2-t1);
+      fprintf(fichier,"%f\n", Tsel/(i+1));
     }
 
     for(j=0; j<tai; j++) T[j]=rand()%100;
@@ -162,12 +164,14 @@ void main(int argv,char**argc){
       trirap(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Trap=Trap + (t2-t1);
+      fprintf(fichier,"%f ", Trap/(i+1));
 
 
       t1=(double)clock()/CLOCKS_PER_SEC;
       trisel(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Tsel= Tsel + (t2-t1);
+      fprintf(fichier,"%f\n", Tsel/(i+1));
 
     }
     printf("%f %f ",Trap/nbruns,Tsel/nbruns);
@@ -182,12 +186,14 @@ void main(int argv,char**argc){
       trirap(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Trap=Trap + (t2-t1);
+      fprintf(fichier,"%f ", Tsel/(i+1));
 
 
       t1=(double)clock()/CLOCKS_PER_SEC;
       trisel(tai);
       t2=(double)clock()/CLOCKS_PER_SEC;
       Tsel= Tsel + (t2-t1);
+      fprintf(fichier,"%f\n", Tsel/(i+1));
 
     }
     printf("%f %f\n",Trap/nbruns,Tsel/nbruns);
